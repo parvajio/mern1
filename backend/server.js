@@ -44,6 +44,18 @@ app.delete('/api/products/:id', async(req, res)=>{
   }
 })
 
+app.put('/api/products/:id', async(req, res)=>{
+  const {id} = req.params;
+  const product = req.body;
+
+  try{
+    const updatedProduct = await Product.findByIdAndUpdate(id, product,{new : true});
+    res.status(200).json({success: true, data: updatedProduct})
+  }catch(err){
+    res.status(500).json({success: false, message: "server error"})
+  }
+})
+
 app.get("/", (req, res) => {
   res.send("server maybe running");
 });
