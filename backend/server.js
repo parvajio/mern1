@@ -24,14 +24,14 @@ app.post("/api/products", async(req, res)=>{
   }
 })
 
-// app.get("/api/products", async(req, res)=>{
-//   try{
-//     const products = Product.find({});
-//     res.status(200).json({success: true, message:"get the products"})
-//   }catch(error){
-//     res.status(500).json({success: false, message: "server error"})
-//   }
-// })
+app.get("/api/products", async(req, res)=>{
+  try{
+    const products = await Product.find({});
+    res.status(200).json({success: true, data: products})
+  }catch(error){
+    res.status(500).json({success: false, message: "server error"})
+  }
+})
 
 app.delete('/api/products/:id', async(req, res)=>{
   const {id} = req.params;
