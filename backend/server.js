@@ -13,8 +13,9 @@ app.get("/", (req, res) => {
   res.send("server maybe running");
 });
 
+const port = process.env.PORT
 
-app.listen(5000, () => {
+app.listen(port, () => {
   connectDB()
-  console.log("listenning");
+  console.log("listenning",port);
 });
