@@ -8,11 +8,11 @@ const Navbar = () => {
 
     
     return (
-        <Container>
+        <Container maxW={'1140px'}>  
             <Flex
                 h={16}
                 alignItems={'center'}
-                justifyContent={'between'}
+                justifyContent={'space-between'}
                 flexDir={{
                     base: 'column',
                     sm: 'row'
