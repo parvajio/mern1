@@ -1,7 +1,17 @@
-import { Container, Link, Text, VStack } from '@chakra-ui/react'
-import React from 'react'
+import { Container, Link, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import React, { useEffect } from 'react'
+import { useProductStore } from '../store/product'
 
 const HomePage = () => {
+
+  const {fetchProduct, products} = useProductStore();
+
+  useEffect(() =>{
+    fetchProduct();
+  },[fetchProduct])
+
+  console.log("products", products);
+
   return (
     <Container maxW={'container.xl'} py={12}>
       <VStack spacing={8}>
@@ -14,6 +24,14 @@ const HomePage = () => {
         >
           Curent Product
         </Text>
+
+        <SimpleGrid
+          column={{base:1, md: 2, lg: 3}}
+          spacing={10}
+          w={'full'}
+        >
+
+        </SimpleGrid>
 
         <Text fontSize={'xl'} textColor={'gray.500'}>
           No Product found!! 
