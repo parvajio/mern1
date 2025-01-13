@@ -5,11 +5,11 @@ import ProductCard from '../components/ProductCard';
 
 const HomePage = () => {
 
-  const {fetchProduct, products} = useProductStore();
+  const { fetchProduct, products } = useProductStore();
 
-  useEffect(() =>{
+  useEffect(() => {
     fetchProduct();
-  },[fetchProduct])
+  }, [fetchProduct])
 
   console.log("products", products);
 
@@ -27,21 +27,23 @@ const HomePage = () => {
         </Text>
 
         <SimpleGrid
-          columns={{base: 1,md: 2, lg:3}}
+          columns={{ base: 1, md: 2, lg: 3 }}
           spacing={10}
           w={'full'}
         >
           {
-            products.map((product)=><ProductCard key={product._id} product={product}></ProductCard>)
+            products.map((product) => <ProductCard key={product._id} product={product}></ProductCard>)
           }
         </SimpleGrid>
 
-        <Text fontSize={'xl'} textColor={'gray.500'}>
-          No Product found!! 
-          <Link href='/create' textColor={'blue.500'}>
-            Create Product
-          </Link>
-        </Text>
+        {products.length === 0 &&
+          <Text fontSize={'xl'} textColor={'gray.500'}>
+            No Product found!!
+            <Link href='/create' textColor={'blue.500'}>
+              Create Product
+            </Link>
+          </Text>}
+
       </VStack>
     </Container>
   )

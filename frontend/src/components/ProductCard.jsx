@@ -1,8 +1,11 @@
-import { Box, Editable, Heading, HStack, IconButton, Image, Text } from '@chakra-ui/react'
+import { Box, Editable, Heading, HStack, IconButton, Image, Text, useColorModeValue } from '@chakra-ui/react'
 import React from 'react'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 const ProductCard = ({ product }) => {
+
+  const textColor = useColorModeValue("gray.600", 'gray.200')
+  const bg= useColorModeValue("white", 'gray.800')
   return (
     <Box
       shadow={'lg'}
@@ -10,6 +13,7 @@ const ProductCard = ({ product }) => {
       overflow={"hidden"}
       transition={'all 0.3s'}
       _hover={{ transform: "translateV(-5px) ", shadow: "xl" }}
+      bg={bg}
     >
       <Image src={product.image} alt={product.name} h={48} w={'full'} objectFit={'cover'}></Image>
 
@@ -18,7 +22,7 @@ const ProductCard = ({ product }) => {
           {product.name}
         </Heading>
 
-        <Text fontWeight={'bold'} fontSize={'xl'} mb={4}>
+        <Text fontWeight={'bold'} fontSize={'xl'} color={textColor} mb={4}>
           ${product.price}
         </Text>
 
