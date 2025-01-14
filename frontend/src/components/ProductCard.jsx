@@ -1,4 +1,4 @@
-import { Box, Button, Editable, Heading, HStack, IconButton, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useColorModeValue, useDisclosure, useToast, VStack } from '@chakra-ui/react'
+import { Box, Button, Heading, HStack, IconButton, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useColorModeValue, useDisclosure, useToast, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { useProductStore } from '../store/product'
@@ -8,11 +8,11 @@ const ProductCard = ({ product }) => {
   const textColor = useColorModeValue("gray.600", 'gray.200')
   const bg = useColorModeValue("white", 'gray.800')
 
-  const { deleteProduct } = useProductStore()
+  const { deleteProduct, updateProduct } = useProductStore()
   const toast = useToast()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [updatedProduct , setUpdatedProduct] = useState(product)
+  const [updatedProduct, setUpdatedProduct] = useState(product)
 
   const handleDeleteProduct = async (pid) => {
 
@@ -36,6 +36,31 @@ const ProductCard = ({ product }) => {
     }
 
   }
+
+  const handleUpdateProduct = async (pid, updatedProduct) => {
+    const { success, message } = await updateProduct(pid, updatedProduct)
+
+    if (!success) {
+      toast({
+        title: 'error.',
+        description: message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
+    } else {
+      toast({
+        title: 'Product updated.',
+        description: "You've updated the product",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+
+    onClose()
+  }
+
   return (
     <Box
       shadow={'lg'}
@@ -77,22 +102,27 @@ const ProductCard = ({ product }) => {
                 placeholder='Product Name'
                 name='name'
                 value={updatedProduct.name}
+                onChange={(e)=> setUpdatedProduct({...updatedProduct, name: e.target.value})}
                 ></Input>
               <Input
                 placeholder='Price'
                 name='price'
                 value={updatedProduct.price}
+                onChange={(e)=> setUpdatedProduct({...updatedProduct, price: e.target.value})}
                 ></Input>
               <Input
                 placeholder='Image Url'
                 name='image'
                 value={updatedProduct.image}
+                onChange={(e)=> setUpdatedProduct({...updatedProduct, image: e.target.value})}
               ></Input>
             </VStack>
           </ModalBody>
 
           <ModalFooter>
-            <Button mr={5} colorScheme='blue'>Update</Button>
+            <Button mr={5} colorScheme='blue'
+              onClick={() => handleUpdateProduct(product._id, updatedProduct)}
+            >Update</Button>
             <Button colorScheme='red' mr={3} onClick={onClose}>
               Close
             </Button>
