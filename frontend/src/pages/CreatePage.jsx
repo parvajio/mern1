@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Input, Toast, useColorModeValue, useToast, VStack } from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Input, useColorModeValue, useToast, VStack } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import { useProductStore } from '../store/product';
 
