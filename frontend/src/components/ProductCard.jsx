@@ -1,36 +1,40 @@
-import { Box, Editable, Heading, HStack, IconButton, Image, Text, useColorModeValue, useToast } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Button, Editable, Heading, HStack, IconButton, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useColorModeValue, useDisclosure, useToast, VStack } from '@chakra-ui/react'
+import React, { useState } from 'react'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { useProductStore } from '../store/product'
 
 const ProductCard = ({ product }) => {
 
   const textColor = useColorModeValue("gray.600", 'gray.200')
-  const bg= useColorModeValue("white", 'gray.800')
+  const bg = useColorModeValue("white", 'gray.800')
 
-  const {deleteProduct} = useProductStore()
+  const { deleteProduct } = useProductStore()
   const toast = useToast()
 
-  const handleDeleteProduct = async(pid) => {
-      const {success, message} = await deleteProduct(pid)
-      if(!success){
-        toast({
-          title: 'error.',
-          description: message,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        })
-      }else{
-        toast({
-          title: 'product deleted.',
-          description: "You've deleted the product",
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        })
-      }
-      
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [updatedProduct , setUpdatedProduct] = useState(product)
+
+  const handleDeleteProduct = async (pid) => {
+
+    const { success, message } = await deleteProduct(pid)
+    if (!success) {
+      toast({
+        title: 'error.',
+        description: message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
+    } else {
+      toast({
+        title: 'product deleted.',
+        description: "You've deleted the product",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+
   }
   return (
     <Box
@@ -53,12 +57,49 @@ const ProductCard = ({ product }) => {
         </Text>
 
         <HStack spacing={2}>
-          <IconButton icon={<EditIcon></EditIcon>} colorScheme='blue'></IconButton>
+          <IconButton icon={<EditIcon></EditIcon>} colorScheme='blue'
+            onClick={onOpen}
+          ></IconButton>
           <IconButton icon={<DeleteIcon></DeleteIcon>} colorScheme='red'
             onClick={() => handleDeleteProduct(product._id)}
           ></IconButton>
         </HStack>
       </Box>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Update Product</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <VStack spacing={4}>
+              <Input
+                placeholder='Product Name'
+                name='name'
+                value={updatedProduct.name}
+                ></Input>
+              <Input
+                placeholder='Price'
+                name='price'
+                value={updatedProduct.price}
+                ></Input>
+              <Input
+                placeholder='Image Url'
+                name='image'
+                value={updatedProduct.image}
+              ></Input>
+            </VStack>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button mr={5} colorScheme='blue'>Update</Button>
+            <Button colorScheme='red' mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
     </Box>
   )
 }
