@@ -14,28 +14,7 @@ const ProductCard = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [updatedProduct, setUpdatedProduct] = useState(product)
 
-  const handleDeleteProduct = async (pid) => {
 
-    const { success, message } = await deleteProduct(pid)
-    if (!success) {
-      toast({
-        title: 'error.',
-        description: message,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      })
-    } else {
-      toast({
-        title: 'product deleted.',
-        description: "You've deleted the product",
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-    }
-
-  }
 
   const handleUpdateProduct = async (pid, updatedProduct) => {
     const { success, message } = await updateProduct(pid, updatedProduct)
