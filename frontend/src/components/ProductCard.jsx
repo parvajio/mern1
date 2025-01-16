@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [updatedProduct, setUpdatedProduct] = useState(product)
 
-
+  
 
   const handleUpdateProduct = async (pid, updatedProduct) => {
     const { success, message } = await updateProduct(pid, updatedProduct)
